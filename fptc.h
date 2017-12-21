@@ -74,14 +74,14 @@
 
 #if FPT_BITS == 32
 typedef int32_t fpt;
-typedef  int64_t  fptd;
-typedef  uint32_t fptu;
-typedef  uint64_t fptud;
+typedef int64_t  fptd;
+typedef int32_t fptu;
+typedef int64_t fptud;
 #elif FPT_BITS == 64
 typedef int64_t fpt;
-typedef  __int128_t fptd;
-typedef  uint64_t fptu;
-typedef  __uint128_t fptud;
+typedef __int128_t fptd;
+typedef uint64_t fptu;
+typedef __uint128_t fptud;
 #else
 #error "FPT_BITS must be equal to 32 or 64"
 #endif
@@ -103,8 +103,16 @@ typedef  __uint128_t fptud;
 #define i2fpt(I) ((fptd)(I) << FPT_FBITS)
 #define fpt2i(F) ((F) >> FPT_FBITS)
 /* gtk */
-#define i2fpt_norm(I,n) ((fptd)(I) << (FPT_FBITS - n))
-#define fpt2i_norm(I,n) ((F) >> (FPT_FBITS - n))
+#define i2fpt_norm(I,n) (               \
+    (FPT_FBITS - n) >= 0 ?              \
+      ((fptd)(I) << (FPT_FBITS - n)) :  \
+      ((fptd)(I) >> -(FPT_FBITS - n))   \
+  )
+#define fpt2i_norm(F,n) (               \
+    (FPT_FBITS - n) >= 0 ?              \
+      ((F) >> (FPT_FBITS - n)) :        \
+      ((F) << -(FPT_FBITS - n))         \
+  )
 /* /gtk */
 #define fpt_add(A,B) ((A) + (B))
 #define fpt_sub(A,B) ((A) - (B))
@@ -114,14 +122,14 @@ typedef  __uint128_t fptud;
   ((fpt)(((fptd)(A) << FPT_FBITS) / (fptd)(B)))
 #define fpt_fracpart(A) ((fpt)(A) & FPT_FMASK)
 
-#define FPT_ONE  ((fpt)((fpt)1 << FPT_FBITS))
+#define FPT_ONE       ((fpt)((fpt)1 << FPT_FBITS))
 #define FPT_MINUS_ONE ((fpt)0 - FPT_ONE)
-#define FPT_ONE_HALF (FPT_ONE >> 1)
-#define FPT_TWO  (FPT_ONE + FPT_ONE)
-#define FPT_PI  fl2fpt(3.14159265358979323846)
-#define FPT_TWO_PI  fl2fpt(2 * 3.14159265358979323846)
-#define FPT_HALF_PI  fl2fpt(3.14159265358979323846 / 2)
-#define FPT_E  fl2fpt(2.7182818284590452354)
+#define FPT_ONE_HALF  (FPT_ONE >> 1)
+#define FPT_TWO       (FPT_ONE + FPT_ONE)
+#define FPT_PI        fl2fpt(3.14159265358979323846)
+#define FPT_TWO_PI    fl2fpt(2 * 3.14159265358979323846)
+#define FPT_HALF_PI   fl2fpt(3.14159265358979323846 / 2)
+#define FPT_E         fl2fpt(2.7182818284590452354)
 
 #define fpt_abs(A) ((A) < 0 ? -(A) : (A))
 
@@ -151,7 +159,8 @@ fpt_div(fpt A, fpt B)
  * the regular integer operators + and -.
  */
 
-static inline int __pow(int x, unsigned int y) {
+static inline int
+__pow(int x, unsigned int y) {
   
   unsigned int i;
   int ret = 1;
@@ -163,7 +172,8 @@ static inline int __pow(int x, unsigned int y) {
 }
 
 /* Parse string to fpt. Scientific format is not supported. */
-static inline int fpt_scan(const char * s, fpt * num, int * br) {
+static inline int
+fpt_scan(const char * s, fpt * num, int * br) {
   
   unsigned int i = 0, ret = 0;
   int whole = 0;
