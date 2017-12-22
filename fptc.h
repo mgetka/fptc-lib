@@ -130,7 +130,7 @@ typedef __uint128_t fptud;
 
 #define FPT_ONE       ((fpt)((fpt)1 << FPT_FBITS))
 #define FPT_ZERO      ((fpt)0)
-#define FPT_MINUS_ONE ((fpt)0 - FPT_ONE)
+#define FPT_MINUS_ONE (-FPT_ONE)
 #define FPT_ONE_HALF  (FPT_ONE >> 1)
 #define FPT_TWO       (FPT_ONE + FPT_ONE)
 #define FPT_MAX       ((fpt)((fptu)~0 >> 1))

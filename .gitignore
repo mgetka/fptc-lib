@@ -6,7 +6,7 @@
 *.ko
 *.obj
 *.elf
-test
+./test
 
 # Linker output
 *.ilk
