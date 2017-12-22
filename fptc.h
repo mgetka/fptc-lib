@@ -2,7 +2,7 @@
 #define _FPTC_H_
 
 /*
- * fptc.h is a 32-bit or 64-bit fixed point numeric library.
+ * fptc.h is a 32-bit or 64-bit fixed point numeric library (modified by mgetka)
  *
  * The symbol FPT_BITS, if defined before this library header file
  * is included, determines the number of bits in the data type (its "width").
@@ -41,7 +41,13 @@
  * of more than 2 decimal places. Make peace with the fact that PI
  * is 3.14 here. :)
  */
-
+ 
+ /*
+ * Copyright (c) 2017 Michał Getka <michal.getka@gmail.com>
+ * This file contains modified version of original fixed point library. Some
+ * additional functionalities and improvements were made.
+ */
+ 
 /*-
  * Copyright (c) 2010-2012 Ivan Voras <ivoras@freebsd.org>
  * Copyright (c) 2012 Tim Hartrick <tim@edgecast.com>
