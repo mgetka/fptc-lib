@@ -134,6 +134,7 @@ typedef __uint128_t fptud;
 #define FPT_ONE_HALF  (FPT_ONE >> 1)
 #define FPT_TWO       (FPT_ONE + FPT_ONE)
 #define FPT_MAX       ((fpt)((fptu)~0 >> 1))
+#define FPT_MIN       ((fpt)1)
 #define FPT_PI        fl2fpt(3.14159265358979323846)
 #define FPT_TWO_PI    fl2fpt(2 * 3.14159265358979323846)
 #define FPT_HALF_PI   fl2fpt(3.14159265358979323846 / 2)
