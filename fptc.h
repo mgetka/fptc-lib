@@ -175,7 +175,8 @@ __pow(int x, unsigned int y) {
 static inline int
 fpt_scan(const char * s, fpt * num, int * br) {
   
-  unsigned int i = 0, ret = 0;
+  unsigned int i = 0;
+  int ret = 0;
   int whole = 0;
   int decimal = 0;
   int expo = 0;
@@ -191,12 +192,15 @@ fpt_scan(const char * s, fpt * num, int * br) {
     }
     
     if (*(s+i) >= '0' && *(s+i) <= '9') {
-      ret += sscanf(s+i, "%d%n", &whole, &bytesread);
+      if (sscanf(s+i, "%d%n", &whole, &bytesread) > 0)
+        ret = 1;
       i += bytesread;
     }
     
-    if (*(s+i) == '.') {
-      ret += sscanf(s+i+1, "%d%n", &decimal, &expo);
+    if (*(s+i) == '.' && *(s+i+1) >= '0' && *(s+i+1) <= '9') {
+      
+      if (sscanf(s+i+1, "%d%n", &decimal, &expo) > 0)
+        ret = 1;
       i += expo;
     }
     
