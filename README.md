@@ -3,6 +3,11 @@ Fixed Point Math Library for C
 
 This repository contains a fork of [Fixed Point Math Library for C](https://sourceforge.net/projects/fixedptc/) improved with some additional functionalities.
 
+ * Conversion from strings to fpt values.
+ * Converstion from fpt to string returns string size.
+ * -1 fpt constant.
+ * Normalized conversion between fpt and int.
+
 Original _Fixed Point Math Library for C_ authors disclaimer:
 
 > Copyright (c) 2010-2012 Ivan Voras <ivoras@freebsd.org>
