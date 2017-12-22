@@ -81,8 +81,8 @@
 #if FPT_BITS == 32
 typedef int32_t fpt;
 typedef int64_t  fptd;
-typedef int32_t fptu;
-typedef int64_t fptud;
+typedef uint32_t fptu;
+typedef uint64_t fptud;
 #elif FPT_BITS == 64
 typedef int64_t fpt;
 typedef __int128_t fptd;
@@ -133,6 +133,7 @@ typedef __uint128_t fptud;
 #define FPT_MINUS_ONE ((fpt)0 - FPT_ONE)
 #define FPT_ONE_HALF  (FPT_ONE >> 1)
 #define FPT_TWO       (FPT_ONE + FPT_ONE)
+#define FPT_MAX       ((fpt)((fptu)~0 >> 1))
 #define FPT_PI        fl2fpt(3.14159265358979323846)
 #define FPT_TWO_PI    fl2fpt(2 * 3.14159265358979323846)
 #define FPT_HALF_PI   fl2fpt(3.14159265358979323846 / 2)
