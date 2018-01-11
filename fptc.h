@@ -119,6 +119,11 @@ typedef __uint128_t fptud;
       ((F) >> (FPT_FBITS - n)) :        \
       ((F) << -(FPT_FBITS - n))         \
   )
+#define fpt_norm(F,from,to) (           \
+    (from - to) >= 0 ?                  \
+      ((fptd)(F) << (from - to)) :      \
+      ((fptd)(F) >> -(from - to))       \
+  )                                     \
 /* /gtk */
 #define fpt_add(A,B) ((A) + (B))
 #define fpt_sub(A,B) ((A) - (B))
