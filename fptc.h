@@ -108,7 +108,7 @@ typedef __uint128_t fptud;
 #define fl2fpt(R) ((fpt)((R) * FPT_ONE + ((R) >= 0 ? 0.5 : -0.5)))
 #define i2fpt(I) ((fptd)(I) << FPT_FBITS)
 #define fpt2i(F) ((F) >> FPT_FBITS)
-/* gtk */
+
 #define i2fpt_norm(I,n) (               \
     (FPT_FBITS - n) >= 0 ?              \
       ((fptd)(I) << (FPT_FBITS - n)) :  \
@@ -124,9 +124,7 @@ typedef __uint128_t fptud;
       ((fptd)(F) << (from - to)) :      \
       ((fptd)(F) >> -(from - to))       \
   )                                     \
-/* /gtk */
-#define fpt_add(A,B) ((A) + (B))
-#define fpt_sub(A,B) ((A) - (B))
+
 #define fpt_xmul(A,B)            \
   ((fpt)(((fptd)(A) * (fptd)(B)) >> FPT_FBITS))
 #define fpt_xdiv(A,B)            \
@@ -139,7 +137,9 @@ typedef __uint128_t fptud;
 #define FPT_ONE_HALF  (FPT_ONE >> 1)
 #define FPT_TWO       (FPT_ONE + FPT_ONE)
 #define FPT_MAX       ((fpt)((fptu)~0 >> 1))
-#define FPT_MIN       ((fpt)1)
+#define FPT_MIN       ~FPT_MAX
+#define FPT_ABS_MAX   FPT_MAX
+#define FPT_ABS_MIN   ((fpt)1)
 #define FPT_PI        fl2fpt(3.14159265358979323846)
 #define FPT_TWO_PI    fl2fpt(2 * 3.14159265358979323846)
 #define FPT_HALF_PI   fl2fpt(3.14159265358979323846 / 2)
@@ -151,6 +151,22 @@ typedef __uint128_t fptud;
  * (e.g. microcontrollers, kernels), so we can't use floating point types directly.
  * Putting them only in macros will effectively make them optional. */
 #define fpt2fl(T) ((float) ((T)*((float)(1)/(float)(1 << FPT_FBITS))))
+
+
+/* Adds two fpt numbers, returns the result. */
+static inline fpt
+fpt_add(fpt A, fpt B)
+{
+  return ((A) + (B));
+}
+
+
+/* Subtracts two fpt numbers, returns the result. */
+static inline fpt
+fpt_sub(fpt A, fpt B)
+{
+  return ((A) - (B));
+}
 
 
 /* Multiplies two fpt numbers, returns the result. */
