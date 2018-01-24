@@ -226,7 +226,7 @@ fpt_mul(fpt A, fpt B)
     if ((fptd)A > ((fptd)FPT_MAX << FPT_FBITS) / (fptd)B) __fpt_mul_overflow_handler;
     if ((fptd)A < ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) __fpt_mul_underflow_handler;
   } else if (B < FPT_ZERO) {
-    if ((fptd)B < ((fptd)FPT_MIN << FPT_FBITS) / (fptd)A) __fpt_mul_underflow_handler;
+    if ((fptd)A > ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) __fpt_mul_underflow_handler;
   }
   #endif
   
