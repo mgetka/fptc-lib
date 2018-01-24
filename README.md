@@ -6,6 +6,7 @@ This repository contains a fork of [Fixed Point Math Library for C](https://sour
  * Conversion from strings to fpt values,
  * converstion from fpt to string returns string size,
  * normalized conversion between fpt and int,
+ * over/underflow detection and handling,
  * and other minor improvements...
 
 Original _Fixed Point Math Library for C_ authors disclaimer:
