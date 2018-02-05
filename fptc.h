@@ -206,8 +206,8 @@ fpt_sub(fpt A, fpt B)
 {
   
   #ifdef FPT_SUB_OVERFLOW_HANDLING
-  if ((A < 0) && (B > FPT_MAX - A)) __fpt_sub_overflow_handler;
-  if ((A > 0) && (B < FPT_MIN - A)) __fpt_sub_underflow_handler;
+  if ((A < 0) && (B > FPT_MAX + A)) __fpt_sub_overflow_handler;
+  if ((A > 0) && (B < FPT_MIN + A)) __fpt_sub_underflow_handler;
   #endif
   
   return ((A) - (B));
