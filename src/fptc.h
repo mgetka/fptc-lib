@@ -184,7 +184,7 @@ typedef __uint128_t fptud;
 
 /* fpt is meant to be usable in environments without floating point support
  * (e.g. microcontrollers, kernels), so we can't use floating point types directly.
- * Putting them only in macros will effectively make them optional. */
+ * However floats can occur in places that will be optimised out during compilation. */
 #define fpt2fl(T) ((float) ((T)*((float)(1)/(float)(1 << FPT_FBITS))))
 
 /* Adds two fpt numbers, returns the result. */
