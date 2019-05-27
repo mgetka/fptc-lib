@@ -78,6 +78,8 @@
 #define FPT_BITS  32
 #endif
 
+#include <stdint.h>
+
 #if FPT_BITS == 32
 typedef int32_t fpt;
 typedef int64_t  fptd;
@@ -185,7 +187,6 @@ typedef __uint128_t fptud;
  * Putting them only in macros will effectively make them optional. */
 #define fpt2fl(T) ((float) ((T)*((float)(1)/(float)(1 << FPT_FBITS))))
 
-
 /* Adds two fpt numbers, returns the result. */
 static inline fpt
 fpt_add(fpt A, fpt B)
@@ -265,7 +266,7 @@ fpt_div(fpt A, fpt B)
  */
 
 static inline int
-__pow(int x, unsigned int y) {
+_pow(int x, unsigned int y) {
   
   unsigned int i;
   int ret = 1;
@@ -314,7 +315,7 @@ fpt_scan(const char * s, fpt * num, int * br) {
   if (!ret)
     return 0;
   
-  *num = i2fpt(whole) + fpt_div(i2fpt(decimal), i2fpt(__pow(10,expo)));
+  *num = i2fpt(whole) + fpt_div(i2fpt(decimal), i2fpt(_pow(10,expo)));
   
   if (neg)
     *num = fpt_mul(*num, FPT_MINUS_ONE);
@@ -387,6 +388,17 @@ fpt_str(fpt A, char *str, int max_dec)
     str[slen] = '\0';
   
   return (ssize_t) slen;
+}
+
+/* Converts the given fixedpt number into a string, using a static
+ * (non-threadsafe) string buffer */
+static inline char*
+fpt_cstr(const fpt A, const int max_dec)
+{
+	static char str[25];
+
+	fpt_str(A, str, max_dec);
+	return (str);
 }
 
 /* Returns the square root of the given number, or -1 in case of error */
