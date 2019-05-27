@@ -12,5 +12,9 @@ bin/verify_32: tests/verify.c src/fptc.h
 bin/verify_64: tests/verify.c src/fptc.h
 	$(CC) -o bin/verify_64 -O3 -Wall -DFIXEDPT_BITS=64 -lm tests/verify.c
 
+test: bin/verify_32 bin/verify_64
+	./bin/verify_32
+	./bin/verify_64
+
 clean:
 	rm -f bin/*
