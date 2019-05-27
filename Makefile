@@ -1,11 +1,16 @@
-all: test verify_32 verify_64
-	true
+CFLAGS = -I src
+CC = gcc $(CFLAGS)
 
-test: test.c fptc.h
-	gcc -o test -O3 -Wall test.c
+all: bin/test bin/verify_32 bin/verify_64
 
-verify_32: verify.c fptc.h
-	gcc -o verify_32 -O3 -Wall -DFIXEDPT_BITS=32 -lm verify.c
+bin/test: tests/test.c src/fptc.h
+	$(CC) -o bin/test -O3 -Wall tests/test.c
 
-verify_64: verify.c fptc.h
-	gcc -o verify_64 -O3 -Wall -DFIXEDPT_BITS=64 -lm verify.c
+bin/verify_32: tests/verify.c src/fptc.h
+	$(CC) -o bin/verify_32 -O3 -Wall -DFIXEDPT_BITS=32 -lm tests/verify.c
+
+bin/verify_64: tests/verify.c src/fptc.h
+	$(CC) -o bin/verify_64 -O3 -Wall -DFIXEDPT_BITS=64 -lm tests/verify.c
+
+clean:
+	rm -f bin/*
