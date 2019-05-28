@@ -152,32 +152,32 @@ typedef __uint128_t fptud;
 /* Following block of code defines default overflow handling macros for math
  * operations. */
  
-#ifndef __fpt_add_overflow_handler
-#define __fpt_add_overflow_handler return FPT_MAX;
+#ifndef _fpt_add_overflow_handler
+#define _fpt_add_overflow_handler return FPT_MAX;
 #endif
-#ifndef __fpt_add_underflow_handler
-#define __fpt_add_underflow_handler return FPT_MIN;
-#endif
-
-#ifndef __fpt_sub_overflow_handler
-#define __fpt_sub_overflow_handler return FPT_MAX;
-#endif
-#ifndef __fpt_sub_underflow_handler
-#define __fpt_sub_underflow_handler return FPT_MIN;
+#ifndef _fpt_add_underflow_handler
+#define _fpt_add_underflow_handler return FPT_MIN;
 #endif
 
-#ifndef __fpt_mul_overflow_handler
-#define __fpt_mul_overflow_handler return FPT_MAX;
+#ifndef _fpt_sub_overflow_handler
+#define _fpt_sub_overflow_handler return FPT_MAX;
 #endif
-#ifndef __fpt_mul_underflow_handler
-#define __fpt_mul_underflow_handler return FPT_MIN;
+#ifndef _fpt_sub_underflow_handler
+#define _fpt_sub_underflow_handler return FPT_MIN;
 #endif
 
-#ifndef __fpt_div_overflow_handler
-#define __fpt_div_overflow_handler return FPT_MAX;
+#ifndef _fpt_mul_overflow_handler
+#define _fpt_mul_overflow_handler return FPT_MAX;
 #endif
-#ifndef __fpt_div_underflow_handler
-#define __fpt_div_underflow_handler return FPT_MIN;
+#ifndef _fpt_mul_underflow_handler
+#define _fpt_mul_underflow_handler return FPT_MIN;
+#endif
+
+#ifndef _fpt_div_overflow_handler
+#define _fpt_div_overflow_handler return FPT_MAX;
+#endif
+#ifndef _fpt_div_underflow_handler
+#define _fpt_div_underflow_handler return FPT_MIN;
 #endif
 
 #define fpt_abs(A) ((A) < 0 ? -(A) : (A))
@@ -193,8 +193,8 @@ fpt_add(fpt A, fpt B)
 {
   
   #ifdef FPT_ADD_OVERFLOW_HANDLING
-  if ((A > 0) && (B > FPT_MAX - A)) __fpt_add_overflow_handler;
-  if ((A < 0) && (B < FPT_MIN - A)) __fpt_add_underflow_handler;
+  if ((A > 0) && (B > FPT_MAX - A)) _fpt_add_overflow_handler;
+  if ((A < 0) && (B < FPT_MIN - A)) _fpt_add_underflow_handler;
   #endif
   
   return ((A) + (B));
@@ -207,8 +207,8 @@ fpt_sub(fpt A, fpt B)
 {
   
   #ifdef FPT_SUB_OVERFLOW_HANDLING
-  if ((A < 0) && (B > FPT_MAX + A)) __fpt_sub_overflow_handler;
-  if ((A > 0) && (B < FPT_MIN + A)) __fpt_sub_underflow_handler;
+  if ((A < 0) && (B > FPT_MAX + A)) _fpt_sub_overflow_handler;
+  if ((A > 0) && (B < FPT_MIN + A)) _fpt_sub_underflow_handler;
   #endif
   
   return ((A) - (B));
@@ -222,12 +222,12 @@ fpt_mul(fpt A, fpt B)
   
   #ifdef FPT_MUL_OVERFLOW_HANDLING
   if (A < FPT_ZERO && B < FPT_ZERO) {
-    if ((fptd)A < ((fptd)FPT_MAX << FPT_FBITS) / (fptd)B) __fpt_mul_overflow_handler;
+    if ((fptd)A < ((fptd)FPT_MAX << FPT_FBITS) / (fptd)B) _fpt_mul_overflow_handler;
   } else if (B > FPT_ZERO) {
-    if ((fptd)A > ((fptd)FPT_MAX << FPT_FBITS) / (fptd)B) __fpt_mul_overflow_handler;
-    if ((fptd)A < ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) __fpt_mul_underflow_handler;
+    if ((fptd)A > ((fptd)FPT_MAX << FPT_FBITS) / (fptd)B) _fpt_mul_overflow_handler;
+    if ((fptd)A < ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) _fpt_mul_underflow_handler;
   } else if (B < FPT_ZERO) {
-    if ((fptd)A > ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) __fpt_mul_underflow_handler;
+    if ((fptd)A > ((fptd)FPT_MIN << FPT_FBITS) / (fptd)B) _fpt_mul_underflow_handler;
   }
   #endif
   
@@ -247,12 +247,12 @@ fpt_div(fpt A, fpt B)
    * computation overhead when doing this in here.*/
   if (fpt_abs(B) <= FPT_ONE) {
     if (A < FPT_ZERO && B < FPT_ZERO) {
-      if ((fptd)A << FPT_FBITS < (fptd)FPT_MAX * (fptd)B) __fpt_div_overflow_handler;
+      if ((fptd)A << FPT_FBITS < (fptd)FPT_MAX * (fptd)B) _fpt_div_overflow_handler;
     } else if (B > FPT_ZERO) {
-      if ((fptd)A << FPT_FBITS > (fptd)FPT_MAX * (fptd)B) __fpt_div_overflow_handler;
-      if ((fptd)A << FPT_FBITS < (fptd)FPT_MIN * (fptd)B) __fpt_div_underflow_handler;
+      if ((fptd)A << FPT_FBITS > (fptd)FPT_MAX * (fptd)B) _fpt_div_overflow_handler;
+      if ((fptd)A << FPT_FBITS < (fptd)FPT_MIN * (fptd)B) _fpt_div_underflow_handler;
     } else if (B < FPT_ZERO) {
-      if ((fptd)A << FPT_FBITS > (fptd)FPT_MIN * (fptd)B) __fpt_div_underflow_handler;
+      if ((fptd)A << FPT_FBITS > (fptd)FPT_MIN * (fptd)B) _fpt_div_underflow_handler;
     }
   }
   #endif
